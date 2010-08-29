@@ -13,7 +13,7 @@ from datetime import datetime
 
 def ra_watch_callback(pkt):
   if ICMPv6NDOptPrefixInfo in pkt:
-    details = pkt.sprintf("Spotted %Ether.src% %IPv6.src% advertising %ICMPv6NDOptPrefixInfo%")
+    details = pkt.sprintf("Spotted %Ether.src% %IPv6.src% advertising %ICMPv6NDOptPrefixInfo.prefix%")
     event_time = datetime.now()
     return event_time.strftime("%x, %X: \t")+details
 
