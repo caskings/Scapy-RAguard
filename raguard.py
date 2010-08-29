@@ -9,6 +9,13 @@ This script listens for rogue IPv6 Router Advertisments.
 
 """
 from scapy.all import *
+from datetime import datetime
+
+def ra_watch_callback(pkt):
+  if ICMPv6NDOptPrefixInfo in pkt:
+    details = pkt.sprintf("Spotted %Ether.src% %IPv6.src% advertising %ICMPv6NDOptPrefixInfo%")
+    event_time = datetime.now()
+    return event_time.strftime("%x, %X: \t")+details
 
 
-sniff(filter="icmp6", store =0,  prn=lambda x: x.show())
+sniff(filter="icmp6", store =0,  prn=ra_watch_callback)
